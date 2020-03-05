@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+
+<configuration>
+
+    <settings>
+        <!-- log4j.properties的配置，用于打印SQL语句及结果到控制台，便于调试 -->
+<!--        <setting name="logImpl" value="STDOUT_LOGGING"/>-->
+        <setting name="callSettersOnNulls" value="true"/>
+        <!--将数据库字段字段映射成java对象的驼峰命名-->
+        <setting name= "mapUnderscoreToCamelCase" value="true" />
+    </settings>
+    <typeAliases>
+    </typeAliases>
+
+    <!-- 配置环境：可以配置多个环境，default：配置某一个环境的唯一标识，表示默认使用哪个环境 -->
+    <environments default="idc">
+        <environment id="idc">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://mysql.sgmw.com:3306/sgmw_kitty?useUnicode=true&amp;characterEncoding=UTF-8"/>
+                <property name="username" value="root"/>
+<!--                <property name="password" value="Gxdxmysql!23"/>-->
+                <property name="password" value="123456"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <!-- 映射map -->
+    <mappers>
+        <!--mapper的方式是配置mapper.xml文件-->
+        <!--package是执行mapper接口的包的路径-->
+        <package name="com.weitongming.dao.mapper"/>
+    </mappers>
+</configuration>

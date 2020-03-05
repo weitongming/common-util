@@ -1,0 +1,38 @@
+api/.classpath
+.settings/
+.idea/
+.project
+
+
+# maven ignore
+target/
+*.jar
+*.war
+*.zip
+*.tar
+*.tar.gz
+
+# eclipse ignore
+.settings/
+.project
+.classpath
+
+# idea ignore
+.idea/
+*.ipr
+*.iml
+*.iws
+
+# temp ignore
+logs/
+*.doc
+*.log
+*.cache
+*.diff
+*.patch
+*.tmp
+java.logs.dir_*/
+
+# system ignore
+.DS_Store
+Thumbs.db
