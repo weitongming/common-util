@@ -5,7 +5,7 @@ import com.weitongming.configuration.Singleton;
 import com.weitongming.dao.entity.SysField;
 import com.weitongming.dao.mapper.SysFieldMapper;
 import com.weitongming.util.FileUtil;
-import com.weitongming.util.ParseBolt;
+import com.weitongming.util.ParseUtil;
 import org.junit.Test;
 
 import java.util.List;
@@ -37,7 +37,7 @@ public class ParseTest {
                         ));
         content.forEach(current -> {
             try {
-                Map parsed = ParseBolt.receive(current, groupByMark);
+                Map parsed = ParseUtil.receive(current, groupByMark);
                 System.out.println(parsed);
             } catch (Exception e) {
                 e.printStackTrace();

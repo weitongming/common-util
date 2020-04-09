@@ -117,9 +117,8 @@ public class ExcelReader {
             Row firstRow = sheet.getRow(firstRowNum);
 
             // 解析每一行的数据，构造数据对象
-            int rowStart = firstRowNum + 1;
             int rowEnd = sheet.getPhysicalNumberOfRows();
-            for (int rowNum = rowStart; rowNum < rowEnd; rowNum++) {
+            for (int rowNum = firstRowNum; rowNum < rowEnd; rowNum++) {
                 Row row = sheet.getRow(rowNum);
 
                 if (null == row) {

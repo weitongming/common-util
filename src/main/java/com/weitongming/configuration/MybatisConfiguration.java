@@ -1,10 +1,7 @@
 package com.weitongming.configuration;
 
 
-import com.weitongming.dao.mapper.CarNetWorkingFunctionMapper;
-import com.weitongming.dao.mapper.SysFieldMapper;
-import com.weitongming.dao.mapper.SysRegionFieldMapper;
-import com.weitongming.dao.mapper.SysRegionMapper;
+import com.weitongming.dao.mapper.*;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -38,12 +35,14 @@ public class MybatisConfiguration {
 
             //构建tkMapper
             CarNetWorkingFunctionMapper carNetWorkingFunctionMapper = sqlSession.getMapper(CarNetWorkingFunctionMapper.class);
+            VinAndUserIdRelationMapper vin = sqlSession.getMapper(VinAndUserIdRelationMapper.class);
             SysFieldMapper sysFieldMapper = sqlSession.getMapper(SysFieldMapper.class);
             SysRegionFieldMapper sysRegionFieldMapper = sqlSession.getMapper(SysRegionFieldMapper.class);
             SysRegionMapper sysRegionMapper = sqlSession.getMapper(SysRegionMapper.class);
 
 
             //缓存mapper起来
+            Singleton.INST.single(VinAndUserIdRelationMapper.class, vin);
             Singleton.INST.single(CarNetWorkingFunctionMapper.class, carNetWorkingFunctionMapper);
             Singleton.INST.single(SysFieldMapper.class, sysFieldMapper);
             Singleton.INST.single(SysRegionFieldMapper.class, sysRegionFieldMapper);

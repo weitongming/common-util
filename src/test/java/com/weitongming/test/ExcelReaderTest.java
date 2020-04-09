@@ -2,13 +2,11 @@ package com.weitongming.test;
 
 import com.weitongming.configuration.MybatisConfiguration;
 import com.weitongming.configuration.Singleton;
-import com.weitongming.dao.entity.RegionField;
-import com.weitongming.dao.entity.SysField;
-import com.weitongming.dao.entity.SysRegion;
-import com.weitongming.dao.entity.SysRegionField;
+import com.weitongming.dao.entity.*;
 import com.weitongming.dao.mapper.SysFieldMapper;
 import com.weitongming.dao.mapper.SysRegionFieldMapper;
 import com.weitongming.dao.mapper.SysRegionMapper;
+import com.weitongming.dao.mapper.VinAndUserIdRelationMapper;
 import com.weitongming.util.ExcelReader;
 import org.junit.Test;
 
@@ -23,7 +21,7 @@ public class ExcelReaderTest {
     @Test
     public void readExcel(){
 
-        List<RegionField> regionFieldList = ExcelReader.readExcel("C:\\Users\\weitongming\\Desktop\\Book1.xlsx",
+        List<RegionField> regionFieldList = ExcelReader.readExcel("信号项分组0401.xls",
                 Arrays.asList("regionName" ,"cnName","enName"),
                 RegionField.class);
         System.out.println(regionFieldList);
@@ -47,6 +45,10 @@ public class ExcelReaderTest {
                 SysField search = new SysField().setEnName(regionField.getEnName());
                 SysField fount = Singleton.INST.get(SysFieldMapper.class).selectOne(search);
                 if (fount != null){
+                    fount.setCnName(regionField.getCnName());
+
+                    Singleton.INST.get(SysFieldMapper.class).updateByPrimaryKeySelective(fount);
+
                     SysRegionField sysRegionField = new SysRegionField()
                             .setFieldId(Long.valueOf(fount.getId()))
                             .setRegionId(Long.valueOf(regionId));
@@ -56,6 +58,29 @@ public class ExcelReaderTest {
                     System.out.println("unknown:" + regionField.getEnName());
                 }
             });
+        });
+    }
+    @Test
+    public void readVinUserIdRelation(){
+
+        List<VinUserIdRelation> vinUserIdRelations = ExcelReader.readExcel("C:\\Users\\weitongming\\Desktop\\临时文件夹\\dataBind.xlsx",
+                Arrays.asList("vin" ,"userId"),
+                VinUserIdRelation.class);
+
+
+        MybatisConfiguration.init();
+        VinAndUserIdRelationMapper vinAndUserIdRelationMapper =  Singleton.INST.get(VinAndUserIdRelationMapper.class);
+        vinUserIdRelations.forEach(vinAndUserIdRelationMapper::insertSelective);
+
+
+    }
+    @Test
+    public void read2(){
+        List<CarNetWorkingFunction> carNetWorkingFunctions = ExcelReader.readExcel("C:\\Users\\weitongming\\Desktop\\车联网.xlsx",
+                Arrays.asList("behaviorId" ,"behaviorDescription"),
+                CarNetWorkingFunction.class);
+        carNetWorkingFunctions.forEach(current ->{
+            System.out.println("update car_networking_function set behavior_description = '" + current.getBehaviorDescription() + "' where behavior_id = " + current.getBehaviorId() + ";");
         });
     }
 }
