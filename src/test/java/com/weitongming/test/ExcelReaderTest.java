@@ -63,17 +63,35 @@ public class ExcelReaderTest {
     @Test
     public void readVinUserIdRelation(){
 
-        List<VinUserIdRelation> vinUserIdRelations = ExcelReader.readExcel("C:\\Users\\weitongming\\Desktop\\临时文件夹\\dataBind.xlsx",
+        List<VinUserIdRelation> vinUserIdRelations = ExcelReader.readExcel("C:\\Users\\weitongming\\Desktop\\临时文件夹\\dataBind-2020-04-08.xlsx",
                 Arrays.asList("vin" ,"userId"),
                 VinUserIdRelation.class);
 
 
         MybatisConfiguration.init();
         VinAndUserIdRelationMapper vinAndUserIdRelationMapper =  Singleton.INST.get(VinAndUserIdRelationMapper.class);
+
         vinUserIdRelations.forEach(vinAndUserIdRelationMapper::insertSelective);
 
+    }
+
+    @Test
+    public void readPhev(){
+
+        List<SysField> sysFields = ExcelReader.readExcel("C:\\Users\\weitongming\\Desktop\\临时文件夹\\phev数据项及中文说明.xlsx",
+                Arrays.asList("enName" ,"cnName"),
+                SysField.class);
+
+        MybatisConfiguration.init();
+        SysFieldMapper sysFieldMapper =  Singleton.INST.get(SysFieldMapper.class);
+
+        sysFields.forEach(current ->{
+            current.setModuleName("CN210S PHEV");
+            sysFieldMapper.insertSelective(current);
+        });
 
     }
+
     @Test
     public void read2(){
         List<CarNetWorkingFunction> carNetWorkingFunctions = ExcelReader.readExcel("C:\\Users\\weitongming\\Desktop\\车联网.xlsx",

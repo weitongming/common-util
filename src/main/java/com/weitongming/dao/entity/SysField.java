@@ -34,6 +34,10 @@ public class SysField {
     private String mark ;
 
 
+    @Column(name = "module_name")
+    private String moduleName ;
+
+
     @Column(name = "length")
     private Integer length ;
 
