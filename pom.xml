@@ -20,7 +20,7 @@
         <mybatis.version>3.4.6</mybatis.version>
         <guava.version>28.0-jre</guava.version>
         <httpclient.version>4.2.5</httpclient.version>
-        <mysql.version>5.1.47</mysql.version>
+        <mysql.version>8.0.16</mysql.version>
         <dozer.version>5.5.1</dozer.version>
         <page-helper.version>5.1.2</page-helper.version>
     </properties>
