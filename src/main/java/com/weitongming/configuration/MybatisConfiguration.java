@@ -39,6 +39,8 @@ public class MybatisConfiguration {
             SysFieldMapper sysFieldMapper = sqlSession.getMapper(SysFieldMapper.class);
             SysRegionFieldMapper sysRegionFieldMapper = sqlSession.getMapper(SysRegionFieldMapper.class);
             SysRegionMapper sysRegionMapper = sqlSession.getMapper(SysRegionMapper.class);
+            IgnitionNumDistributeMapper ignitionNumDistributeMapper = sqlSession.getMapper(IgnitionNumDistributeMapper.class);
+            TBVehicleProjectinfoMapper tbVehicleProjectinfoMapper = sqlSession.getMapper(TBVehicleProjectinfoMapper.class);
 
 
             //缓存mapper起来
@@ -47,6 +49,8 @@ public class MybatisConfiguration {
             Singleton.INST.single(SysFieldMapper.class, sysFieldMapper);
             Singleton.INST.single(SysRegionFieldMapper.class, sysRegionFieldMapper);
             Singleton.INST.single(SysRegionMapper.class, sysRegionMapper);
+            Singleton.INST.single(IgnitionNumDistributeMapper.class, ignitionNumDistributeMapper);
+            Singleton.INST.single(TBVehicleProjectinfoMapper.class, tbVehicleProjectinfoMapper);
 
 
 

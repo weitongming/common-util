@@ -18,4 +18,8 @@ public class RegionField {
     @Column(name = "en_name")
     private String enName;
 
+
+    @Column(name = "mark")
+    private String mark;
+
 }

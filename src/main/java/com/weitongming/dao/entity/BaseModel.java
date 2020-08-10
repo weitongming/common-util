@@ -19,7 +19,7 @@ public class BaseModel {
 
 	@Id
 	@GeneratedValue(generator = "JDBC"    )
-	private Long id;
+	private Integer id;
 
 	@Column(name = "create_by")
     private String createBy;

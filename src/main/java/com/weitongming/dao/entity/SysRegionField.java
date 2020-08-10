@@ -8,7 +8,6 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -18,17 +17,17 @@ public class SysRegionField {
 
     @Id
     @GeneratedValue(generator = "JDBC"    )
-    private Long id;
+    private Integer id;
 
     @Column(name = "create_by")
     private String createBy;
 
     @Column(name = "create_time")
-    private Date createTime;
+    private Integer createTime;
 
 	@Column(name = "region_id")
-    private Long regionId;
+    private Integer regionId;
 
 	@Column(name = "field_id")
-    private Long fieldId;
+    private Integer fieldId;
 }

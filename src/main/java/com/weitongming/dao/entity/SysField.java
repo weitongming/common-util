@@ -63,6 +63,12 @@ public class SysField {
     @Column(name = "data_type")
     private String dataType ;
 
+    @Column(name = "data_range")
+    private String dataRange ;
+
+    @Column(name = "data_unit")
+    private String dataUnit ;
+
 
     @Column(name = "en_name")
     private String enName;

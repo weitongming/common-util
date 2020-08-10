@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 
 public class ExcelReaderTest {
 
+
     @Test
     public void readExcel(){
 
@@ -38,7 +39,7 @@ public class ExcelReaderTest {
                     .setRegionName(current.getKey())
                     .setRegionStatus(1);
             Singleton.INST.get(SysRegionMapper.class).insertSelective(sysRegion);
-            Long regionId = sysRegion.getId();
+            Integer regionId = sysRegion.getId();
             List<RegionField> regionFields = current.getValue() ;
 
             regionFields.forEach(regionField ->{
@@ -50,8 +51,8 @@ public class ExcelReaderTest {
                     Singleton.INST.get(SysFieldMapper.class).updateByPrimaryKeySelective(fount);
 
                     SysRegionField sysRegionField = new SysRegionField()
-                            .setFieldId(Long.valueOf(fount.getId()))
-                            .setRegionId(Long.valueOf(regionId));
+                            .setFieldId(fount.getId())
+                            .setRegionId(Integer.valueOf(regionId));
                     Singleton.INST.get(SysRegionFieldMapper.class).insertSelective(sysRegionField);
                 }
                 else{
@@ -60,6 +61,96 @@ public class ExcelReaderTest {
             });
         });
     }
+
+
+    @Test
+    public void readExcelV2(){
+
+        List<RegionField> regionFieldList = ExcelReader.readExcel("信号项分组0401.xls",
+                Arrays.asList("regionName" ,"cnName","enName"),
+                RegionField.class);
+        Map<String ,List<RegionField>> map = regionFieldList.stream().collect(
+                Collectors.groupingBy(
+                        RegionField::getRegionName,
+                        Collectors.mapping(Function.identity(), Collectors.toList())
+                ));
+        System.out.println(map);
+
+        MybatisConfiguration.init();
+
+        map.forEach((key, regionFields) -> {
+
+            List<String> modelList = Arrays.asList("CN180S MCE","CN202M","CN210S","CN220C");
+
+            modelList.forEach(model->{
+                SysRegion sysRegion = Singleton.INST.get(SysRegionMapper.class).selectOne(new SysRegion()
+                        .setRegionName(key)
+                        .setModuleName(model)
+                        .setRegionStatus(1));
+
+                if (sysRegion == null){
+                    return;
+                }
+                regionFields.forEach(regionField -> {
+                    SysField search = new SysField().setEnName(regionField.getEnName()).setModuleName(model);
+                    List<SysField> fountList = Singleton.INST.get(SysFieldMapper.class).select(search);
+
+                    if (fountList == null){
+                        return;
+                    }
+                    fountList.forEach(fount->{
+                        SysRegionField sysRegionField = new SysRegionField().setRegionId(sysRegion.getId()).setFieldId(fount.getId());
+                        Singleton.INST.get(SysRegionFieldMapper.class).insertSelective(sysRegionField);
+                    });
+                });
+
+            });
+
+        });
+    }
+
+
+    @Test
+    public void readExcel3(){
+
+        List<RegionField> regionFieldList = ExcelReader.readExcel("phev信号分组0518.xlsx",
+                Arrays.asList("enName","cnName","mark","regionName" ),
+                RegionField.class);
+        System.out.println(regionFieldList);
+        Map<String ,List<RegionField>> map = regionFieldList.stream().collect(
+                Collectors.groupingBy(
+                        RegionField::getRegionName,
+                        Collectors.mapping(Function.identity(), Collectors.toList())
+                ));
+        System.out.println(map);
+        String moduleName = "CN210S PHEV";
+        MybatisConfiguration.init();
+        map.entrySet().forEach(current ->{
+            SysRegion sysRegion  = new SysRegion()
+                    .setModuleName(moduleName)
+                    .setRegionName(current.getKey())
+                    .setRegionStatus(1);
+            Singleton.INST.get(SysRegionMapper.class).insertSelective(sysRegion);
+            Integer regionId = sysRegion.getId();
+            List<RegionField> regionFields = current.getValue() ;
+
+            regionFields.forEach(regionField ->{
+                SysField insert = new SysField()
+                        .setEnName(regionField.getEnName())
+                        .setCnName(regionField.getCnName())
+                        .setMark(regionField.getMark())
+                        .setModuleName(moduleName);
+                Singleton.INST.get(SysFieldMapper.class).insertSelective(insert);
+
+                SysRegionField sysRegionField = new SysRegionField()
+                        .setFieldId(insert.getId())
+                        .setRegionId(regionId);
+                Singleton.INST.get(SysRegionFieldMapper.class).insertSelective(sysRegionField);
+
+            });
+        });
+    }
+
     @Test
     public void readVinUserIdRelation(){
 
@@ -78,8 +169,8 @@ public class ExcelReaderTest {
     @Test
     public void readPhev(){
 
-        List<SysField> sysFields = ExcelReader.readExcel("C:\\Users\\weitongming\\Desktop\\临时文件夹\\phev数据项及中文说明.xlsx",
-                Arrays.asList("enName" ,"cnName"),
+        List<SysField> sysFields = ExcelReader.readExcel("C:\\Users\\weitongming\\Desktop\\临时文件夹\\phev数据项-0421.xlsx",
+                Arrays.asList("enName" ,"cnName","mark"),
                 SysField.class);
 
         MybatisConfiguration.init();
@@ -101,4 +192,32 @@ public class ExcelReaderTest {
             System.out.println("update car_networking_function set behavior_description = '" + current.getBehaviorDescription() + "' where behavior_id = " + current.getBehaviorId() + ";");
         });
     }
+
+    @Test
+    public void updateField(){
+        List<SysField> sysFieldList = ExcelReader.readExcel("字段说明0615.xlsx",
+                Arrays.asList("enName" ,"dataRange","dataUnit"),
+                SysField.class);
+
+        MybatisConfiguration.init();
+        SysFieldMapper sysFieldMapper =  Singleton.INST.get(SysFieldMapper.class);
+
+
+
+        sysFieldList.forEach(current ->{
+
+            List<SysField> foundList = sysFieldMapper.select(new SysField().setEnName(current.getEnName()));
+            foundList.forEach(sysField -> {
+
+                sysField.setDataRange(current.getDataRange());
+                sysField.setDataUnit(current.getDataUnit());
+
+                sysFieldMapper.updateByPrimaryKeySelective(sysField);
+                System.out.println(sysField.getId());
+            });
+
+        });
+    }
+
+
 }

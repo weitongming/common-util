@@ -14,6 +14,9 @@ import javax.persistence.Table;
 @Accessors(chain = true)
 public class SysRegion extends BaseModel {
 
+	@Column(name = "module_name")
+	private String moduleName;
+
 	@Column(name = "region_name")
     private String regionName;
 

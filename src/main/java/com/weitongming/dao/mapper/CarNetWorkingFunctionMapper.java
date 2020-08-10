@@ -10,5 +10,7 @@ import tk.mybatis.mapper.common.Mapper;
  * @create 2020-02-09 21:48
  */
 public interface CarNetWorkingFunctionMapper extends Mapper<CarNetWorkingFunction> {
+
+
 }
 
