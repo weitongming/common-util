@@ -10,6 +10,8 @@ import lombok.Data;
 @Data
 public class IOVStatistic {
 
+    private String day;
+
     private String vin ;
 
     private String behavior;

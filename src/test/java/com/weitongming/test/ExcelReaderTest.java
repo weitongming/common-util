@@ -1,6 +1,5 @@
 package com.weitongming.test;
 
-import com.weitongming.configuration.MybatisConfiguration;
 import com.weitongming.configuration.Singleton;
 import com.weitongming.dao.entity.*;
 import com.weitongming.dao.mapper.SysFieldMapper;
@@ -33,7 +32,6 @@ public class ExcelReaderTest {
                 ));
         System.out.println(map);
 
-        MybatisConfiguration.init();
         map.entrySet().forEach(current ->{
             SysRegion sysRegion  = new SysRegion()
                     .setRegionName(current.getKey())
@@ -76,7 +74,6 @@ public class ExcelReaderTest {
                 ));
         System.out.println(map);
 
-        MybatisConfiguration.init();
 
         map.forEach((key, regionFields) -> {
 
@@ -124,7 +121,7 @@ public class ExcelReaderTest {
                 ));
         System.out.println(map);
         String moduleName = "CN210S PHEV";
-        MybatisConfiguration.init();
+
         map.entrySet().forEach(current ->{
             SysRegion sysRegion  = new SysRegion()
                     .setModuleName(moduleName)
@@ -159,7 +156,7 @@ public class ExcelReaderTest {
                 VinUserIdRelation.class);
 
 
-        MybatisConfiguration.init();
+
         VinAndUserIdRelationMapper vinAndUserIdRelationMapper =  Singleton.INST.get(VinAndUserIdRelationMapper.class);
 
         vinUserIdRelations.forEach(vinAndUserIdRelationMapper::insertSelective);
@@ -173,7 +170,7 @@ public class ExcelReaderTest {
                 Arrays.asList("enName" ,"cnName","mark"),
                 SysField.class);
 
-        MybatisConfiguration.init();
+
         SysFieldMapper sysFieldMapper =  Singleton.INST.get(SysFieldMapper.class);
 
         sysFields.forEach(current ->{
@@ -199,7 +196,7 @@ public class ExcelReaderTest {
                 Arrays.asList("enName" ,"dataRange","dataUnit"),
                 SysField.class);
 
-        MybatisConfiguration.init();
+
         SysFieldMapper sysFieldMapper =  Singleton.INST.get(SysFieldMapper.class);
 
 

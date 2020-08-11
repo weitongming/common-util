@@ -1,0 +1,55 @@
+# Tomcat
+server:
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 1000
+    min-spare-threads: 30
+  port: 8091
+  #context-path: /kitty-admin
+# DataSource
+mybatis :
+  type-aliases-package: com.sgmw.kitty.admin.dao.entity
+  mapper-locations: classpath:mapper/*.xml
+spring :
+  datasource :
+    dynamic:
+      primary: master
+      strict: true
+      datasource:
+        master:
+          url: jdbc:mysql://96.11.0.10:3306/sgmw_kitty?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false&serverTimezone=Asia/Shanghai
+          username: root
+          password: FastMysql!23
+        smartGovernment :
+          url: jdbc:mysql://96.11.0.10:3306/sgmw?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false&serverTimezone=Asia/Shanghai
+          username: sgmwReadOnly
+          password: sgmwReadOnly!23
+        fantasy:
+          url: jdbc:mysql://96.11.0.11:3306/sgmw?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false&serverTimezone=Asia/Shanghai
+          username: wlapp
+          password: 123456aA?
+  # spring boot admin
+  application:
+    name: Kitty-Admin
+# pagehelper
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+
+###############hbase
+hbase:
+  zkaddr: "96.11.0.17:2181"
+  tableName:
+    carNetWorking: "t_carNetWorking"
+  pool:
+    size: "10"
+export:
+  path: "/opt/sgmw/kitty/derive/"
+  maxConcurrentTask: 10
+  queueSize: 20
+  dbcPath: "/home/gth/uploads/car"
+kitty:
+  white-url: "menu/findNavTree,menu/findMenuTree,/user/updatePassword,/logout,/user/checkToken,/user/checkPermission"

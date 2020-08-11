@@ -1,6 +1,5 @@
 package com.weitongming.test;
 
-import com.weitongming.configuration.MybatisConfiguration;
 import com.weitongming.configuration.Singleton;
 import com.weitongming.dao.entity.SysField;
 import com.weitongming.dao.mapper.SysFieldMapper;
@@ -23,7 +22,7 @@ public class ParseTest {
     public void testParse() {
 
         List<String> content = FileUtil.readFileAndReturnList("2020-03-03-5-temp.txt");
-        MybatisConfiguration.init();
+
         SysFieldMapper sysFieldMapper = Singleton.INST.get(SysFieldMapper.class);
 
 
